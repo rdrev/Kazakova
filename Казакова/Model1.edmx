@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище КазаковаModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Задание">
+          <Key>
+            <PropertyRef Name="КодЗадание" />
+          </Key>
+          <Property Name="КодЗадание" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="НазваниеЗадачи" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Начала" Type="date" Nullable="false" />
+          <Property Name="Окончание" Type="date" Nullable="false" />
+          <Property Name="СтатусЗадания" Type="bit" Nullable="false" />
+          <Property Name="Клиент" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ЗадачиСотрудники">
+          <Key>
+            <PropertyRef Name="КодЗадачиСотрудники" />
+          </Key>
+          <Property Name="КодЗадачиСотрудники" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ПодЗадание" Type="int" Nullable="false" />
+          <Property Name="Сотрудники" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Клиенты">
+          <Key>
+            <PropertyRef Name="КодКлиента" />
+          </Key>
+          <Property Name="КодКлиента" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Логин" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Пароль" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ПодЗадание">
+          <Key>
+            <PropertyRef Name="КодПодзадание" />
+          </Key>
+          <Property Name="КодПодзадание" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="СтатусПодЗадание" Type="bit" Nullable="false" />
+          <Property Name="КомментарийПодЗадание" Type="nvarchar(max)" />
+          <Property Name="Задача" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="КодСотрудники" />
+          </Key>
+          <Property Name="КодСотрудники" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Фамилия" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Имя" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Отчество" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Логин" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Пароль" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Доступ" Type="bit" Nullable="false" />
+          <Property Name="Премия" Type="float" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Задание_Клиенты">
+          <End Role="Клиенты" Type="Self.Клиенты" Multiplicity="1" />
+          <End Role="Задание" Type="Self.Задание" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Клиенты">
+              <PropertyRef Name="КодКлиента" />
+            </Principal>
+            <Dependent Role="Задание">
+              <PropertyRef Name="Клиент" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ЗадачиСотрудники_ПодЗадание">
+          <End Role="ПодЗадание" Type="Self.ПодЗадание" Multiplicity="1" />
+          <End Role="ЗадачиСотрудники" Type="Self.ЗадачиСотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ПодЗадание">
+              <PropertyRef Name="КодПодзадание" />
+            </Principal>
+            <Dependent Role="ЗадачиСотрудники">
+              <PropertyRef Name="ПодЗадание" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ЗадачиСотрудники_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="ЗадачиСотрудники" Type="Self.ЗадачиСотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="КодСотрудники" />
+            </Principal>
+            <Dependent Role="ЗадачиСотрудники">
+              <PropertyRef Name="Сотрудники" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ПодЗадание_Задание">
+          <End Role="Задание" Type="Self.Задание" Multiplicity="1" />
+          <End Role="ПодЗадание" Type="Self.ПодЗадание" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Задание">
+              <PropertyRef Name="КодЗадание" />
+            </Principal>
+            <Dependent Role="ПодЗадание">
+              <PropertyRef Name="Задача" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище КазаковаModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Задание" EntityType="Self.Задание" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ЗадачиСотрудники" EntityType="Self.ЗадачиСотрудники" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Клиенты" EntityType="Self.Клиенты" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ПодЗадание" EntityType="Self.ПодЗадание" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Задание_Клиенты" Association="Self.FK_Задание_Клиенты">
+            <End Role="Клиенты" EntitySet="Клиенты" />
+            <End Role="Задание" EntitySet="Задание" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ЗадачиСотрудники_ПодЗадание" Association="Self.FK_ЗадачиСотрудники_ПодЗадание">
+            <End Role="ПодЗадание" EntitySet="ПодЗадание" />
+            <End Role="ЗадачиСотрудники" EntitySet="ЗадачиСотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ЗадачиСотрудники_Сотрудники" Association="Self.FK_ЗадачиСотрудники_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="ЗадачиСотрудники" EntitySet="ЗадачиСотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ПодЗадание_Задание" Association="Self.FK_ПодЗадание_Задание">
+            <End Role="Задание" EntitySet="Задание" />
+            <End Role="ПодЗадание" EntitySet="ПодЗадание" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="КазаковаModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Задание">
+          <Key>
+            <PropertyRef Name="КодЗадание" />
+          </Key>
+          <Property Name="КодЗадание" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="НазваниеЗадачи" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Начала" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Окончание" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="СтатусЗадания" Type="Boolean" Nullable="false" />
+          <Property Name="Клиент" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Клиенты" Relationship="Self.FK_Задание_Клиенты" FromRole="Задание" ToRole="Клиенты" />
+          <NavigationProperty Name="ПодЗадание" Relationship="Self.FK_ПодЗадание_Задание" FromRole="Задание" ToRole="ПодЗадание" />
+        </EntityType>
+        <EntityType Name="ЗадачиСотрудники">
+          <Key>
+            <PropertyRef Name="КодЗадачиСотрудники" />
+          </Key>
+          <Property Name="КодЗадачиСотрудники" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ПодЗадание" Type="Int32" Nullable="false" />
+          <Property Name="Сотрудники" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ПодЗадание1" Relationship="Self.FK_ЗадачиСотрудники_ПодЗадание" FromRole="ЗадачиСотрудники" ToRole="ПодЗадание" />
+          <NavigationProperty Name="Сотрудники1" Relationship="Self.FK_ЗадачиСотрудники_Сотрудники" FromRole="ЗадачиСотрудники" ToRole="Сотрудники" />
+        </EntityType>
+        <EntityType Name="Клиенты">
+          <Key>
+            <PropertyRef Name="КодКлиента" />
+          </Key>
+          <Property Name="КодКлиента" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Задание" Relationship="Self.FK_Задание_Клиенты" FromRole="Клиенты" ToRole="Задание" />
+        </EntityType>
+        <EntityType Name="ПодЗадание">
+          <Key>
+            <PropertyRef Name="КодПодзадание" />
+          </Key>
+          <Property Name="КодПодзадание" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="СтатусПодЗадание" Type="Boolean" Nullable="false" />
+          <Property Name="КомментарийПодЗадание" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Задача" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Задание" Relationship="Self.FK_ПодЗадание_Задание" FromRole="ПодЗадание" ToRole="Задание" />
+          <NavigationProperty Name="ЗадачиСотрудники" Relationship="Self.FK_ЗадачиСотрудники_ПодЗадание" FromRole="ПодЗадание" ToRole="ЗадачиСотрудники" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="КодСотрудники" />
+          </Key>
+          <Property Name="КодСотрудники" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Фамилия" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Имя" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Отчество" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Логин" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Пароль" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Доступ" Type="Boolean" Nullable="false" />
+          <Property Name="Премия" Type="Double" Nullable="false" />
+          <NavigationProperty Name="ЗадачиСотрудники" Relationship="Self.FK_ЗадачиСотрудники_Сотрудники" FromRole="Сотрудники" ToRole="ЗадачиСотрудники" />
+        </EntityType>
+        <Association Name="FK_Задание_Клиенты">
+          <End Role="Клиенты" Type="Self.Клиенты" Multiplicity="1" />
+          <End Role="Задание" Type="Self.Задание" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Клиенты">
+              <PropertyRef Name="КодКлиента" />
+            </Principal>
+            <Dependent Role="Задание">
+              <PropertyRef Name="Клиент" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ПодЗадание_Задание">
+          <End Role="Задание" Type="Self.Задание" Multiplicity="1" />
+          <End Role="ПодЗадание" Type="Self.ПодЗадание" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Задание">
+              <PropertyRef Name="КодЗадание" />
+            </Principal>
+            <Dependent Role="ПодЗадание">
+              <PropertyRef Name="Задача" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ЗадачиСотрудники_ПодЗадание">
+          <End Role="ПодЗадание" Type="Self.ПодЗадание" Multiplicity="1" />
+          <End Role="ЗадачиСотрудники" Type="Self.ЗадачиСотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ПодЗадание">
+              <PropertyRef Name="КодПодзадание" />
+            </Principal>
+            <Dependent Role="ЗадачиСотрудники">
+              <PropertyRef Name="ПодЗадание" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ЗадачиСотрудники_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="ЗадачиСотрудники" Type="Self.ЗадачиСотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="КодСотрудники" />
+            </Principal>
+            <Dependent Role="ЗадачиСотрудники">
+              <PropertyRef Name="Сотрудники" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="КазаковаEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Задание" EntityType="Self.Задание" />
+          <EntitySet Name="ЗадачиСотрудники" EntityType="Self.ЗадачиСотрудники" />
+          <EntitySet Name="Клиенты" EntityType="Self.Клиенты" />
+          <EntitySet Name="ПодЗадание" EntityType="Self.ПодЗадание" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" />
+          <AssociationSet Name="FK_Задание_Клиенты" Association="Self.FK_Задание_Клиенты">
+            <End Role="Клиенты" EntitySet="Клиенты" />
+            <End Role="Задание" EntitySet="Задание" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ПодЗадание_Задание" Association="Self.FK_ПодЗадание_Задание">
+            <End Role="Задание" EntitySet="Задание" />
+            <End Role="ПодЗадание" EntitySet="ПодЗадание" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ЗадачиСотрудники_ПодЗадание" Association="Self.FK_ЗадачиСотрудники_ПодЗадание">
+            <End Role="ПодЗадание" EntitySet="ПодЗадание" />
+            <End Role="ЗадачиСотрудники" EntitySet="ЗадачиСотрудники" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ЗадачиСотрудники_Сотрудники" Association="Self.FK_ЗадачиСотрудники_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="ЗадачиСотрудники" EntitySet="ЗадачиСотрудники" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище КазаковаModelContainer" CdmEntityContainer="КазаковаEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="КазаковаModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Задание">
+            <EntityTypeMapping TypeName="КазаковаModel.Задание">
+              <MappingFragment StoreEntitySet="Задание">
+                <ScalarProperty Name="КодЗадание" ColumnName="КодЗадание" />
+                <ScalarProperty Name="НазваниеЗадачи" ColumnName="НазваниеЗадачи" />
+                <ScalarProperty Name="Начала" ColumnName="Начала" />
+                <ScalarProperty Name="Окончание" ColumnName="Окончание" />
+                <ScalarProperty Name="СтатусЗадания" ColumnName="СтатусЗадания" />
+                <ScalarProperty Name="Клиент" ColumnName="Клиент" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ЗадачиСотрудники">
+            <EntityTypeMapping TypeName="КазаковаModel.ЗадачиСотрудники">
+              <MappingFragment StoreEntitySet="ЗадачиСотрудники">
+                <ScalarProperty Name="КодЗадачиСотрудники" ColumnName="КодЗадачиСотрудники" />
+                <ScalarProperty Name="ПодЗадание" ColumnName="ПодЗадание" />
+                <ScalarProperty Name="Сотрудники" ColumnName="Сотрудники" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Клиенты">
+            <EntityTypeMapping TypeName="КазаковаModel.Клиенты">
+              <MappingFragment StoreEntitySet="Клиенты">
+                <ScalarProperty Name="КодКлиента" ColumnName="КодКлиента" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Логин" ColumnName="Логин" />
+                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ПодЗадание">
+            <EntityTypeMapping TypeName="КазаковаModel.ПодЗадание">
+              <MappingFragment StoreEntitySet="ПодЗадание">
+                <ScalarProperty Name="КодПодзадание" ColumnName="КодПодзадание" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="СтатусПодЗадание" ColumnName="СтатусПодЗадание" />
+                <ScalarProperty Name="КомментарийПодЗадание" ColumnName="КомментарийПодЗадание" />
+                <ScalarProperty Name="Задача" ColumnName="Задача" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сотрудники">
+            <EntityTypeMapping TypeName="КазаковаModel.Сотрудники">
+              <MappingFragment StoreEntitySet="Сотрудники">
+                <ScalarProperty Name="КодСотрудники" ColumnName="КодСотрудники" />
+                <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+                <ScalarProperty Name="Имя" ColumnName="Имя" />
+                <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+                <ScalarProperty Name="Логин" ColumnName="Логин" />
+                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+                <ScalarProperty Name="Доступ" ColumnName="Доступ" />
+                <ScalarProperty Name="Премия" ColumnName="Премия" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

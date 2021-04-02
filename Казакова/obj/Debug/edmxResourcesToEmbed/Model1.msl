@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище КазаковаModelContainer" CdmEntityContainer="КазаковаEntities">
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="КазаковаModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Задание">
+      <EntityTypeMapping TypeName="КазаковаModel.Задание">
+        <MappingFragment StoreEntitySet="Задание">
+          <ScalarProperty Name="КодЗадание" ColumnName="КодЗадание" />
+          <ScalarProperty Name="НазваниеЗадачи" ColumnName="НазваниеЗадачи" />
+          <ScalarProperty Name="Начала" ColumnName="Начала" />
+          <ScalarProperty Name="Окончание" ColumnName="Окончание" />
+          <ScalarProperty Name="СтатусЗадания" ColumnName="СтатусЗадания" />
+          <ScalarProperty Name="Клиент" ColumnName="Клиент" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ЗадачиСотрудники">
+      <EntityTypeMapping TypeName="КазаковаModel.ЗадачиСотрудники">
+        <MappingFragment StoreEntitySet="ЗадачиСотрудники">
+          <ScalarProperty Name="КодЗадачиСотрудники" ColumnName="КодЗадачиСотрудники" />
+          <ScalarProperty Name="ПодЗадание" ColumnName="ПодЗадание" />
+          <ScalarProperty Name="Сотрудники" ColumnName="Сотрудники" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Клиенты">
+      <EntityTypeMapping TypeName="КазаковаModel.Клиенты">
+        <MappingFragment StoreEntitySet="Клиенты">
+          <ScalarProperty Name="КодКлиента" ColumnName="КодКлиента" />
+          <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+          <ScalarProperty Name="Имя" ColumnName="Имя" />
+          <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+          <ScalarProperty Name="Логин" ColumnName="Логин" />
+          <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ПодЗадание">
+      <EntityTypeMapping TypeName="КазаковаModel.ПодЗадание">
+        <MappingFragment StoreEntitySet="ПодЗадание">
+          <ScalarProperty Name="КодПодзадание" ColumnName="КодПодзадание" />
+          <ScalarProperty Name="Название" ColumnName="Название" />
+          <ScalarProperty Name="СтатусПодЗадание" ColumnName="СтатусПодЗадание" />
+          <ScalarProperty Name="КомментарийПодЗадание" ColumnName="КомментарийПодЗадание" />
+          <ScalarProperty Name="Задача" ColumnName="Задача" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Сотрудники">
+      <EntityTypeMapping TypeName="КазаковаModel.Сотрудники">
+        <MappingFragment StoreEntitySet="Сотрудники">
+          <ScalarProperty Name="КодСотрудники" ColumnName="КодСотрудники" />
+          <ScalarProperty Name="Фамилия" ColumnName="Фамилия" />
+          <ScalarProperty Name="Имя" ColumnName="Имя" />
+          <ScalarProperty Name="Отчество" ColumnName="Отчество" />
+          <ScalarProperty Name="Логин" ColumnName="Логин" />
+          <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+          <ScalarProperty Name="Доступ" ColumnName="Доступ" />
+          <ScalarProperty Name="Премия" ColumnName="Премия" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
